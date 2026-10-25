@@ -1,0 +1,7 @@
+# robots.txt — Clarissa Di Cola | Psicóloga
+# https://clarissadicola.com.br/
+
+User-agent: *
+Allow: /
+
+Sitemap: https://clarissadicola.com.br/sitemap.xml
