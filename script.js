@@ -25,10 +25,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Close mobile menu when clicking a link
+    // Smooth scroll + fechar menu mobile ao clicar em link
     const navLinks = document.querySelectorAll('.main-nav a');
     navLinks.forEach(link => {
-        link.addEventListener('click', () => {
+        link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+
+            // Só age em âncoras internas (#...)
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    const headerHeight = document.querySelector('.header').offsetHeight;
+                    const targetTop = target.getBoundingClientRect().top + window.scrollY - headerHeight;
+                    window.scrollTo({ top: targetTop, behavior: 'smooth' });
+                }
+            }
+
+            // Fecha menu mobile se estiver aberto
             if (mainNav.classList.contains('active')) {
                 mobileToggle.click();
             }
@@ -62,12 +76,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     // Active nav link tracking on scroll
-    const sections = document.querySelectorAll('section[id]');
+    const sections = document.querySelectorAll('section[id], footer[id]');
     const navItems = document.querySelectorAll('.main-nav ul a');
 
     function updateActiveNav() {
         const scrollPos = window.scrollY + 150;
-        
+        const pageBottom = window.scrollY + window.innerHeight;
+        const docHeight = document.documentElement.scrollHeight;
+
+        // Se chegou ao fim da página, força "contato" como ativo
+        if (pageBottom >= docHeight - 10) {
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === '#contato') {
+                    item.classList.add('active');
+                }
+            });
+            return;
+        }
+
         sections.forEach(section => {
             const top = section.offsetTop;
             const height = section.offsetHeight;
