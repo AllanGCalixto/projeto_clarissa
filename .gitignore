@@ -36,6 +36,9 @@ pnpm-debug.log*
 .gemini/
 .agents/
 
+# Pastas locais / Referências
+inspiração/
+
 # Sistema Operacional (Windows, macOS, Linux)
 Thumbs.db
 Thumbs.db:encryptable
